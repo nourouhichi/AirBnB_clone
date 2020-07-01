@@ -6,12 +6,15 @@
 
 """
 import json
+import os
 from models.base_model import BaseModel
+
+
 class FileStorage:
     """ """
     __file_path = "file.json"
     __objects = {}
-    """allclasses = {"BaseModel": BaseModel}"""
+    allclasses = {"BaseModel": BaseModel}
 
     def all(self):
         """returns a dictionary"""
@@ -24,24 +27,19 @@ class FileStorage:
     def save(self):
         """ loads __objects dictionary to jason format"""
         dictaa = {}
-        with open(self.__file_path, mode="w+") as f:
+        with open(self.__file_path, mode="w") as f:
             for i, j in self.__objects.items():
                 dictaa[i] = j.to_dict()
-            json.dump(dictaa, f)
+            json.dump(dictaa, f, indent=4)
 
     def reload(self):
         """loads the jason format of a dictionary to __object format"""
         name = {}
-        try:
-            with open(self.__file_path, mode="r+") as f:
+        if os.path.isfile(self.__file_path):
+            with open(self.__file_path, mode="r") as f:
                 data = json.load(f)
-                # for v in list(data.values()):
-                #     name = 
-            for v in data.values():
-                classes = v["__class__"]
-                classes = eval(classes)
-                self.new(classes(**v))
-        except FileNotFoundError:
-            pass
-        
-        
+                for k, v in data.items():
+                    name[k] = self.allclasses[v["__class__"]](**v)
+                self.__objects = name
+        else:
+            return
