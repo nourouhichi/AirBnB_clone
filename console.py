@@ -129,5 +129,12 @@ class HBNBCommand(cmd.Cmd):
                 v.__dict__[argv[2]] = new
                 storage.save()
                 return
+
+    def default(self, line):
+        counter = 0
+        line = line.split('.')
+        if line[1] == "count()":
+            print(len(storage.all()))
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
