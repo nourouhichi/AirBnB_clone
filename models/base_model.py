@@ -18,7 +18,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
-            for k , v in kwargs.items():
+            for k, v in kwargs.items():
                 if k is not "__class__":
                     if v is kwargs["created_at"] or v is kwargs["updated_at"]:
                         v = datetime.datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
@@ -27,8 +27,6 @@ class BaseModel:
             """models.storage.new(self)"""
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
-            
-
 
     def __str__(self):
         """ returns a string object"""
@@ -39,8 +37,8 @@ class BaseModel:
     def save(self):
         """ updates the public instance attribute"""
         self.updated_at = datetime.datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+       """ models.storage.new(self)
+        models.storage.save()"""
 
     def to_dict(self):
         """ returns a dictionary containing all key/values of __dict__"""
